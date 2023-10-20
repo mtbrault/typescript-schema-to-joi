@@ -1,0 +1,39 @@
+{
+  "name": "typescript-schema-to-joi",
+  "version": "1.0.0",
+  "description": "package to convert typescript schema to joi schema",
+  "main": "dist/index.js",
+  "types": "dist/idnex.d.ts",
+  "scripts": {
+    "lint": "eslint . --ext .ts,.js",
+    "build": "npx tsc",
+    "test": "jest tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mtbrault/typescript-schema-to-joi.git"
+  },
+  "author": "Matthieu BRAULT",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/mtbrault/typescript-schema-to-joi/issues"
+  },
+  "homepage": "https://github.com/mtbrault/typescript-schema-to-joi#readme",
+  "devDependencies": {
+    "@types/jest": "^29.5.6",
+    "@types/node": "^20.8.7",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
+    "@typescript-eslint/parser": "^6.8.0",
+    "eslint": "^8.51.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-plugin-import": "^2.28.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "joi": "^17.11.0",
+    "ts-json-schema-generator": "^1.4.0"
+  }
+}
