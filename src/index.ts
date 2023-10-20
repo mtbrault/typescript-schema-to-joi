@@ -1,11 +1,15 @@
 import { createGenerator } from 'ts-json-schema-generator';
 import joi from 'joi';
+import fs from 'fs';
 
-const jsonToJoi = (def: any) => {
-  console.log(def);
-
+const jsonToJoi = (def: any, definitions: any): joi.AnySchema => {
   if (typeof def.const !== 'undefined') {
     return joi.valid(def.const);
+  }
+
+  if (def.$ref) {
+    const ref = def.$ref.replace('#/definitions/', '');
+    return jsonToJoi(definitions[ref], definitions);
   }
 
   if (def.enum) {
@@ -15,14 +19,25 @@ const jsonToJoi = (def: any) => {
   if (def.anyOf) {
     return joi
       .alternatives()
-      .try(...def.anyOf.map((anyOf: any) => jsonToJoi(anyOf)));
+      .try(...def.anyOf.map((anyOf: any) => jsonToJoi(anyOf, definitions)));
   }
 
   if (Array.isArray(def.type)) {
     return joi
       .alternatives()
-      .try(...def.type.map((type: any) => jsonToJoi({ type })));
+      .try(...def.type.map((type: any) => jsonToJoi({ type }, definitions)));
   }
+
+  const buildObjectKeys = () => Object.keys(def.properties).reduce(
+    (acc: any, key: string) => {
+      const keySchema = jsonToJoi(def.properties[key], definitions);
+      return {
+        ...acc,
+        [key]: def.required?.includes(key) ? keySchema.required() : keySchema,
+      };
+    },
+    {},
+  );
 
   switch (def.type) {
     case 'string':
@@ -34,18 +49,27 @@ const jsonToJoi = (def: any) => {
     case 'null':
       return joi.valid(null);
     case 'array':
-      return joi.array().items(jsonToJoi(def.items));
+      return joi.array().items(jsonToJoi(def.items, definitions));
+    case 'object':
+      return joi.object().keys(buildObjectKeys());
     default:
-      return joi.not();
+      return joi.forbidden();
   }
 };
 
-export default (pathToFile: string, tsConfigPath: string, type: string) => {
-  const config = {
-    path: pathToFile,
-    tsconfig: tsConfigPath,
-    type,
-  };
-  const jsonSchema = createGenerator(config).createSchema(type);
-  return jsonToJoi(jsonSchema?.definitions?.[type]);
+type Config = {
+  path: string;
+  tsconfig: string;
+  type: string;
+};
+
+export default (config: Config, writeJsonFile = false, writePath?: string): joi.AnySchema => {
+  const jsonSchema = createGenerator(config).createSchema(config.type);
+  if (writeJsonFile) {
+    fs.writeFileSync(
+      writePath || `${config.path.substring(0, config.path.lastIndexOf('/') + 1)}/${config.type}.json`,
+      JSON.stringify(jsonSchema, null, 2),
+    );
+  }
+  return jsonToJoi(jsonSchema?.definitions?.[config.type], jsonSchema?.definitions);
 };

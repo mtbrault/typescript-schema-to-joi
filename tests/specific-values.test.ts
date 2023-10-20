@@ -2,11 +2,11 @@ import schemaToJoi from '../src';
 
 describe('Specific values', () => {
   it('string value', () => {
-    const schema = schemaToJoi(
-      './tests/fixtures/index.ts',
-      './tsconfig.json',
-      'StringValue',
-    );
+    const schema = schemaToJoi({
+      path: './tests/fixtures/index.ts',
+      tsconfig: './tsconfig.json',
+      type: 'StringValue',
+    });
 
     const nullTest = schema.validate(null);
     const stringTest = schema.validate('string');
@@ -22,11 +22,11 @@ describe('Specific values', () => {
   });
 
   it('number value', () => {
-    const schema = schemaToJoi(
-      './tests/fixtures/index.ts',
-      './tsconfig.json',
-      'NumberValue',
-    );
+    const schema = schemaToJoi({
+      path: './tests/fixtures/index.ts',
+      tsconfig: './tsconfig.json',
+      type: 'NumberValue',
+    });
 
     const nullTest = schema.validate(null);
     const stringTest = schema.validate('string');
@@ -42,11 +42,11 @@ describe('Specific values', () => {
   });
 
   it('boolean value', () => {
-    const schema = schemaToJoi(
-      './tests/fixtures/index.ts',
-      './tsconfig.json',
-      'BooleanValue',
-    );
+    const schema = schemaToJoi({
+      path: './tests/fixtures/index.ts',
+      tsconfig: './tsconfig.json',
+      type: 'BooleanValue',
+    });
 
     const nullTest = schema.validate(null);
     const stringTest = schema.validate('string');

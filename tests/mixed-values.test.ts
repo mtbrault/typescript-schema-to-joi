@@ -2,11 +2,11 @@ import schemaToJoi from '../src';
 
 describe('Mixed values', () => {
   it('string or number', () => {
-    const schema = schemaToJoi(
-      './tests/fixtures/index.ts',
-      './tsconfig.json',
-      'StringOrNumber',
-    );
+    const schema = schemaToJoi({
+      path: './tests/fixtures/index.ts',
+      tsconfig: './tsconfig.json',
+      type: 'StringOrNumber',
+    });
 
     const nullTest = schema.validate(null);
     const stringTest = schema.validate('string');
@@ -20,11 +20,11 @@ describe('Mixed values', () => {
   });
 
   it('string conditions', () => {
-    const schema = schemaToJoi(
-      './tests/fixtures/index.ts',
-      './tsconfig.json',
-      'StringCondition',
-    );
+    const schema = schemaToJoi({
+      path: './tests/fixtures/index.ts',
+      tsconfig: './tsconfig.json',
+      type: 'StringCondition',
+    });
 
     const nullTest = schema.validate(null);
     const stringTest = schema.validate('string');
@@ -42,11 +42,11 @@ describe('Mixed values', () => {
   });
 
   it('test enum', () => {
-    const schema = schemaToJoi(
-      './tests/fixtures/index.ts',
-      './tsconfig.json',
-      'TestEnum',
-    );
+    const schema = schemaToJoi({
+      path: './tests/fixtures/index.ts',
+      tsconfig: './tsconfig.json',
+      type: 'TestEnum',
+    });
 
     const nullTest = schema.validate(null);
     const stringTest = schema.validate('2');
@@ -66,11 +66,11 @@ describe('Mixed values', () => {
   });
 
   it('string or number or false', () => {
-    const schema = schemaToJoi(
-      './tests/fixtures/index.ts',
-      './tsconfig.json',
-      'StringOrNumberOrFalse',
-    );
+    const schema = schemaToJoi({
+      path: './tests/fixtures/index.ts',
+      tsconfig: './tsconfig.json',
+      type: 'StringOrNumberOrFalse',
+    });
 
     const nullTest = schema.validate(null);
     const stringTest = schema.validate('2');

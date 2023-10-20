@@ -19,14 +19,18 @@ export enum TestEnum {
 export type StringArray = string[];
 export type NumberArray = number[];
 export type StringOrNumberArray = (string | number)[];
-
-export type PartialString = Partial<StringCondition>;
+export type DoubleArray = StringOrNumberArray[];
 
 export type ObjectTest = {
   haha: 'oui' | 'non';
   toto: {
-    isHappy: true;
-    isString: 'oui';
-    isNumber: 1;
+    isHappy: boolean;
+    isString: string;
+    isNumber?: number;
+    tata: {
+      isRecursive: true;
+    }
   };
+  optional?: string;
+  test: TestEnum[];
 };

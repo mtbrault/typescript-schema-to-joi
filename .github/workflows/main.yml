@@ -1,0 +1,53 @@
+name: Package CD
+
+on: push
+
+jobs:
+    lint-and-test:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+        - name: Using node 21
+          uses: actions/setup-node@v3
+          with:
+            node-version: 21.x
+
+        - name: Install deps
+          run: npm ci
+
+        - name: Linter
+          run: npm run lint
+
+        - name: Test
+          run: npm run test
+        
+    publish:
+        needs: [lint-and-test]
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/main'
+        steps:
+            - uses: actions/checkout@v4
+            - name: Using node 21
+              uses: actions/setup-node@v3
+              with:
+                node-version: 21.x
+
+            - name: Update version
+              run: |
+                git config --global user.name 'Matthieu BRAULT'
+                git config --global user.email 'matthieu.brault1@gmail.com'
+                npm version patch -m "[RELEASE] %s"
+    
+            - name: Install deps
+              run: |
+                npm ci
+    
+            - name: Build
+              run: npm run build
+    
+            - name: Publishing on npm
+              run: |
+                npm publish
+                git push
+              env:
+                NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

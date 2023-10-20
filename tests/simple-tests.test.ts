@@ -2,11 +2,11 @@ import schemaToJoi from '../src';
 
 describe('Simple types', () => {
   it('string', () => {
-    const schema = schemaToJoi(
-      './tests/fixtures/index.ts',
-      './tsconfig.json',
-      'String',
-    );
+    const schema = schemaToJoi({
+      path: './tests/fixtures/index.ts',
+      tsconfig: './tsconfig.json',
+      type: 'String',
+    });
 
     const nullTest = schema.validate(null);
     const stringTest = schema.validate('string');
@@ -20,11 +20,11 @@ describe('Simple types', () => {
   });
 
   it('number', () => {
-    const schema = schemaToJoi(
-      './tests/fixtures/index.ts',
-      './tsconfig.json',
-      'Number',
-    );
+    const schema = schemaToJoi({
+      path: './tests/fixtures/index.ts',
+      tsconfig: './tsconfig.json',
+      type: 'Number',
+    });
 
     const nullTest = schema.validate(null);
     const stringTest = schema.validate('string');
@@ -38,11 +38,11 @@ describe('Simple types', () => {
   });
 
   it('boolean', () => {
-    const schema = schemaToJoi(
-      './tests/fixtures/index.ts',
-      './tsconfig.json',
-      'Boolean',
-    );
+    const schema = schemaToJoi({
+      path: './tests/fixtures/index.ts',
+      tsconfig: './tsconfig.json',
+      type: 'Boolean',
+    });
 
     const nullTest = schema.validate(null);
     const stringTest = schema.validate('string');
@@ -56,11 +56,11 @@ describe('Simple types', () => {
   });
 
   it('null', () => {
-    const schema = schemaToJoi(
-      './tests/fixtures/index.ts',
-      './tsconfig.json',
-      'Null',
-    );
+    const schema = schemaToJoi({
+      path: './tests/fixtures/index.ts',
+      tsconfig: './tsconfig.json',
+      type: 'Null',
+    });
 
     const nullTest = schema.validate(null);
     const stringTest = schema.validate('string');
