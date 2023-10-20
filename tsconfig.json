@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+      "declaration": true,
       "outDir": "./dist/",                                 /* Redirect output structure to the directory. */
       "baseUrl": "src",
       "target": "es2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */

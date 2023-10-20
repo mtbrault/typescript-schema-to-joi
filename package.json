@@ -1,9 +1,12 @@
 {
   "name": "typescript-schema-to-joi",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "package to convert typescript schema to joi schema",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "lint": "eslint . --ext .ts,.js",
     "build": "npx tsc",
