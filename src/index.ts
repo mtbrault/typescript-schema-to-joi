@@ -28,16 +28,13 @@ const jsonToJoi = (def: any, definitions: any): joi.AnySchema => {
       .try(...def.type.map((type: any) => jsonToJoi({ type }, definitions)));
   }
 
-  const buildObjectKeys = () => Object.keys(def.properties).reduce(
-    (acc: any, key: string) => {
-      const keySchema = jsonToJoi(def.properties[key], definitions);
-      return {
-        ...acc,
-        [key]: def.required?.includes(key) ? keySchema.required() : keySchema,
-      };
-    },
-    {},
-  );
+  const buildObjectKeys = () => Object.keys(def.properties).reduce((acc: any, key: string) => {
+    const keySchema = jsonToJoi(def.properties[key], definitions);
+    return {
+      ...acc,
+      [key]: def.required?.includes(key) ? keySchema.required() : keySchema,
+    };
+  }, {});
 
   switch (def.type) {
     case 'string':
@@ -63,13 +60,23 @@ type Config = {
   type: string;
 };
 
-export default (config: Config, writeJsonFile = false, writePath?: string): joi.AnySchema => {
+export default (
+  config: Config,
+  writeJsonFile = false,
+  writePath?: string,
+): joi.AnySchema => {
   const jsonSchema = createGenerator(config).createSchema(config.type);
   if (writeJsonFile) {
     fs.writeFileSync(
-      writePath || `${config.path.substring(0, config.path.lastIndexOf('/') + 1)}/${config.type}.json`,
+      writePath
+        || `${config.path.substring(0, config.path.lastIndexOf('/') + 1)}/${
+          config.type
+        }.json`,
       JSON.stringify(jsonSchema, null, 2),
     );
   }
-  return jsonToJoi(jsonSchema?.definitions?.[config.type], jsonSchema?.definitions);
+  return jsonToJoi(
+    jsonSchema?.definitions?.[config.type],
+    jsonSchema?.definitions,
+  );
 };

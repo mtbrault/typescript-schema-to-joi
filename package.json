@@ -10,7 +10,8 @@
   "scripts": {
     "lint": "eslint . --ext .ts,.js",
     "build": "npx tsc",
-    "test": "jest tests"
+    "test": "jest tests",
+    "publish": "npm publish"
   },
   "repository": {
     "type": "git",

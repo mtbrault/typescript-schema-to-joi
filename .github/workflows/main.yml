@@ -32,22 +32,32 @@ jobs:
               with:
                 node-version: 21.x
 
+            - name: Checking if there is diff in src folder
+              uses: technote-space/get-diff-action@v6
+              with:
+                PATTERNS: src/**/*.ts
+
             - name: Update version
               run: |
                 git config --global user.name 'Matthieu BRAULT'
                 git config --global user.email 'matthieu.brault1@gmail.com'
                 npm version patch -m "[RELEASE] %s"
+              if: env.GIT_DIFF
     
             - name: Install deps
               run: |
                 npm ci
+              if: env.GIT_DIFF
+
     
             - name: Build
               run: npm run build
+              if: env.GIT_DIFF
     
             - name: Publishing on npm
               run: |
-                npm publish
+                npm run publish
                 git push
+              if: env.GIT_DIFF
               env:
                 NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
