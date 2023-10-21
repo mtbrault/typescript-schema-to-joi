@@ -54,7 +54,7 @@ const jsonToJoi = (def: any, definitions: any): joi.AnySchema => {
   }
 };
 
-type Config = {
+export type Config = {
   path: string;
   tsconfig: string;
   type: string;
