@@ -38,7 +38,7 @@ const jsonToJoi = (def: any, definitions: any): joi.AnySchema => {
 
   switch (def.type) {
     case 'string':
-      return joi.string();
+      return joi.string().allow('');
     case 'number':
       return joi.number().strict();
     case 'boolean':
